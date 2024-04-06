@@ -126,8 +126,8 @@ async function handleChatCompletion(req, res) {
     req.body.stream ? "(stream-enabled)" : "(stream-disabled)"
   );
 
-  // 随机不可用
-  const randomNotUse = Math.random() < 0.4
+  // 随机不可用, 一半概率
+  const randomNotUse = Math.random() > 0.5
   
   if(randomNotUse) {
     console.log("Random Not Use")
