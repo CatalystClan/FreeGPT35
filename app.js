@@ -126,7 +126,8 @@ async function handleChatCompletion(req, res) {
     req.body.stream ? "(stream-enabled)" : "(stream-disabled)"
   );
 
-  if(!ready) {
+  // 随机不可用
+  if(!ready || Math.random() < 0.4){
     res.setHeader("Content-Type", "application/json");
     res.write(
       JSON.stringify({
