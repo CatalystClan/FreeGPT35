@@ -215,6 +215,8 @@ async function handleChatCompletion(req, res) {
           ],
         })}\n\n`
       );
+
+      res.write(`data: [DONE]\n\n`)
     } else {
       res.write(
         JSON.stringify({
