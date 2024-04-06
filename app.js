@@ -127,7 +127,7 @@ async function handleChatCompletion(req, res) {
   );
 
   // 随机不可用
-  const randomNotUse = Math.random() > 0.4
+  const randomNotUse = Math.random() < 0.4
   
   if(randomNotUse) {
     console.log("Random Not Use")
