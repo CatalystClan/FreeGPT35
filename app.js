@@ -127,8 +127,14 @@ async function handleChatCompletion(req, res) {
   );
 
   // 随机不可用
-  if(!ready || Math.random() < 0.4){
-    res.setHeader("Content-Type", "application/json");
+  const randomNotUse = Math.random() < 0.4
+  
+  if(randomNotUse) {
+    console.log("Random Not Use")
+  }
+
+  if(!ready || randomNotUse){
+    if (!res.headersSent) res.setHeader("Content-Type", "application/json");
     res.write(
       JSON.stringify({
         status: false,
@@ -281,13 +287,29 @@ async function handleChatCompletion(req, res) {
   }
 }
 
+// Function for authentication
+function authMiddleware(req, res, next) {
+  // Set API-Key, if not set, next()
+  const authToken = process.env.AUTH_TOKEN;
+
+  const reqAuthToken = req.headers.authorization;
+
+  if (!authToken) {
+    next();
+  } else if (reqAuthToken && reqAuthToken === `Bearer ${authToken}`) {
+    next();
+  } else {
+    res.sendStatus(401);
+  }
+}
+
 // Initialize Express app and use middlewares
 const app = express();
 app.use(bodyParser.json());
 app.use(enableCORS);
 
 // Route to handle POST requests for chat completions
-app.post("/v1/chat/completions", handleChatCompletion);
+app.post("/v1/chat/completions", authMiddleware, handleChatCompletion);
 
 // 404 handler for unmatched routes
 app.use((req, res) =>
