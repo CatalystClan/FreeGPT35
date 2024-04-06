@@ -134,17 +134,8 @@ async function handleChatCompletion(req, res) {
   }
 
   if(!ready || randomNotUse){
-    if (!res.headersSent) res.setHeader("Content-Type", "application/json");
-    res.write(
-      JSON.stringify({
-        status: false,
-        error: {
-          message: "The server is not ready yet, please wait a moment.",
-          type: "server_not_ready",
-        },
-      })
-    );
-    res.end();
+    res.status(501);
+    res.send('The server is not ready yet, please wait a moment.');
     return;
   }
 
