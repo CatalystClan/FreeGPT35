@@ -14,6 +14,7 @@ const errorWait = 120000; // Wait time in ms after an error
 // Initialize global variables to store the session token and device ID
 let token;
 let oaiDeviceId;
+let ready = false;
 
 // Function to wait for a specified duration
 const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -99,6 +100,7 @@ async function getNewSessionId() {
   );
   oaiDeviceId = newDeviceId;
   token = response.data.token;
+  ready = true
 
   // console.log("New Token:", token);
   // console.log("New Device ID:", oaiDeviceId);
@@ -123,6 +125,22 @@ async function handleChatCompletion(req, res) {
     `${req.body?.messages?.length || 0} messages`,
     req.body.stream ? "(stream-enabled)" : "(stream-disabled)"
   );
+
+  if(!ready) {
+    res.setHeader("Content-Type", "application/json");
+    res.write(
+      JSON.stringify({
+        status: false,
+        error: {
+          message: "The server is not ready yet, please wait a moment.",
+          type: "server_not_ready",
+        },
+      })
+    );
+    res.end();
+    return;
+  }
+
   try {
     const body = {
       action: "next",
@@ -300,6 +318,7 @@ app.listen(port, () => {
         await getNewSessionId();
         await wait(refreshInterval);
       } catch (error) {
+        ready = false
         console.error("Error refreshing session ID, retrying in 1 minute...");
         console.error(
           "If this error persists, your country may not be supported yet."
