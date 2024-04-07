@@ -126,14 +126,7 @@ async function handleChatCompletion(req, res) {
     req.body.stream ? "(stream-enabled)" : "(stream-disabled)"
   );
 
-  // 随机不可用
-  const randomNotUse = Math.random() > 0.3
-  
-  if(randomNotUse) {
-    console.log("Random Not Use")
-  }
-
-  if(!ready || randomNotUse){
+  if(!ready){
     res.status(501);
     res.send('The server is not ready yet, please wait a moment.');
     return;
