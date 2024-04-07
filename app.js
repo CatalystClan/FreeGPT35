@@ -120,6 +120,7 @@ function enableCORS(req, res, next) {
 // Middleware to handle chat completions
 async function handleChatCompletion(req, res) {
   console.log(
+    `📥 ${new Date().toLocaleString()} -`,
     "Request:",
     `${req.method} ${req.originalUrl}`,
     `${req.body?.messages?.length || 0} messages`,

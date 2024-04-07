@@ -3,6 +3,8 @@ FROM node:alpine
 ARG AUTH_TOKEN
 ENV AUTH_TOKEN=${AUTH_TOKEN}
 
+ENV TZ=Asia/Shanghai
+
 WORKDIR /usr/src/app
 
 COPY package*.json ./
