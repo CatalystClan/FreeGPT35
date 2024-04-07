@@ -9,7 +9,8 @@ COPY package*.json ./
 COPY . .
 
 RUN npm install --only=production
+RUN npm install -g pm2
 
 EXPOSE 3040
 
-CMD ["node", "app.js"]
+CMD ["pm2-runtime", "app.js", "-i", "max"]
