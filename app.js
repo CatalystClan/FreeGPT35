@@ -16,6 +16,10 @@ let token;
 let oaiDeviceId;
 let ready = false;
 
+const log = (...args) => {
+  console.log(`[${new Date().toLocaleString()}]`, ...args);
+}
+
 // Function to wait for a specified duration
 const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -93,7 +97,7 @@ async function getNewSessionId() {
       headers: { "oai-device-id": newDeviceId },
     }
   );
-  console.log(
+  log(
     `System: Successfully refreshed session ID and token. ${
       !token ? "(Now it's ready to process requests)" : ""
     }`
@@ -102,8 +106,8 @@ async function getNewSessionId() {
   token = response.data.token;
   ready = true
 
-  // console.log("New Token:", token);
-  // console.log("New Device ID:", oaiDeviceId);
+  // log("New Token:", token);
+  // log("New Device ID:", oaiDeviceId);
 }
 
 // Middleware to enable CORS and handle pre-flight requests
@@ -119,7 +123,7 @@ function enableCORS(req, res, next) {
 
 // Middleware to handle chat completions
 async function handleChatCompletion(req, res) {
-  console.log(
+  log(
     `📥 ${new Date().toLocaleString()} -`,
     "Request:",
     `${req.method} ${req.originalUrl}`,
@@ -255,7 +259,7 @@ async function handleChatCompletion(req, res) {
 
     res.end();
   } catch (error) {
-    // console.log('Error:', error.response?.data ?? error.message);
+    // log('Error:', error.response?.data ?? error.message);
     if (!res.headersSent) res.setHeader("Content-Type", "application/json");
     // console.error('Error handling chat completion:', error);
     res.write(
@@ -309,16 +313,16 @@ app.use((req, res) =>
 
 // Start the server and the session ID refresh loop
 app.listen(port, () => {
-  console.log(`💡 Server is running at http://localhost:${port}`);
-  console.log();
-  console.log(`🔗 Base URL: http://localhost:${port}/v1`);
-  console.log(
+  log(`💡 Server is running at http://localhost:${port}`);
+  log();
+  log(`🔗 Base URL: http://localhost:${port}/v1`);
+  log(
     `🔗 ChatCompletion Endpoint: http://localhost:${port}/v1/chat/completions`
   );
-  console.log();
-  console.log("📝 Original TS Source By: Pawan.Krd");
-  console.log("📝 Modified Into JavaScript By: Adam");
-  console.log();
+  log();
+  log("📝 Original TS Source By: Pawan.Krd");
+  log("📝 Modified Into JavaScript By: Adam");
+  log();
 
   setTimeout(async () => {
     while (true) {
