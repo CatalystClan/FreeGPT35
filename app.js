@@ -138,8 +138,11 @@ async function getNewSession(retries = 0) {
     oaiDeviceId = newDeviceId;
     token = session.token;
 
+    ready = true;
+
     return session;
   } catch (error) {
+    ready = false;
     await wait(500);
     return retries < newSessionRetries ? getNewSession(retries + 1) : null;
   }
