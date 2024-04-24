@@ -4,10 +4,6 @@
 
 Utilize the unlimited free **GPT-3.5-Turbo** API service provided by the login-free ChatGPT Web.
 
-
-> [!IMPORTANT]  
-> **If you are unable to use this project normally, it is most likely due to issues with your IP. Your IP has triggered Cloudflare's shield, or has already been banned. Please try to change your IP or switch servers on your own. 如果您无法正常使用此项目，很可能是由于您的 IP 存在问题。您的 IP 已触发了 Cloudflare 的盾，或已被 ban 掉。请尝试自行更改您的 IP 或切换服务器。**
-
 ## Please READ the following content carefully!
 - Please do not use the IP provided by proxy providers, otherwise you probably won't be able to use it. 请不要使用机场的 IP，不然你大概率无法使用。
 - Do not make frequent requests, such as using **immersive translate**. 不要频繁请求，例如使用沉浸式翻译。
@@ -37,7 +33,7 @@ docker run -p 3040:3040 missuo/freegpt35
 
 ```bash
 mkdir freegpt35 && cd freegpt35
-wget -O compose.yaml https://raw.githubusercontent.com/missuo/FreeGPT35/main/compose.yaml
+wget -O compose.yaml https://raw.githubusercontent.com/missuo/FreeGPT35/main/compose/compose.yaml
 docker compose up -d
 ```
 
@@ -45,11 +41,21 @@ docker compose up -d
 
 ```bash
 mkdir freegpt35 && cd freegpt35
-wget -O compose.yaml https://raw.githubusercontent.com/missuo/FreeGPT35/main/compose_with_next_chat.yaml
+wget -O compose.yaml https://raw.githubusercontent.com/missuo/FreeGPT35/main/compose/compose_with_next_chat.yaml
 docker compose up -d
 ```
 
 After deployment, you can directly access `http://[IP]:3040/v1/chat/completions` to use the API. Or use `http://[IP]:3000` to directly use **ChatGPT-Next-Web**.
+
+#### FreeGPT35 Service with [lobe-chat](https://github.com/lobehub/lobe-chat):
+
+```bash
+mkdir freegpt35 && cd freegpt35
+wget -O compose.yaml https://raw.githubusercontent.com/missuo/FreeGPT35/main/compose/compose_with_lobe_chat.yaml
+docker compose up -d
+```
+
+After deployment, you can directly access `http://[IP]:3040/v1/chat/completions` to use the API. Or use `http://[IP]:3210` to directly use **lobe-chat**.
 
 ### Nginx Reverse Proxy
 
@@ -132,4 +138,4 @@ You can use it in any app, such as OpenCat, Next-Chat, Lobe-Chat, Bob, etc. Feel
 - Original Author: [https://github.com/PawanOsman/ChatGPT](https://github.com/PawanOsman/ChatGPT)
 
 ## License
-MIT License
+AGPL 3.0 License
