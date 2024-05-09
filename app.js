@@ -145,7 +145,7 @@ async function getNewSession(retries = 0) {
     log(
       `❌`,
       "Error refreshing session ID and token:",
-      error
+      error.message
     )
 
     ready = false;
