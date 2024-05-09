@@ -130,7 +130,7 @@ async function getNewSession(retries = 0) {
     let session = response.data;
     session.deviceId = newDeviceId;
 
-    console.log(
+    log(
       `System: Successfully refreshed session ID and token. ${
         !token ? "(Now it's ready to process requests)" : ""
       }`
@@ -142,6 +142,12 @@ async function getNewSession(retries = 0) {
 
     return session;
   } catch (error) {
+    log(
+      `❌`,
+      "Error refreshing session ID and token:",
+      error
+    )
+
     ready = false;
     await wait(500);
     return retries < newSessionRetries ? getNewSession(retries + 1) : null;
